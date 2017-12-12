@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-func ExampleFakeClient() {
-	fc := &FakeClient{
+func ExampleClient() {
+	fc := &Client{
 		Error: errors.New("oh noes"),
 		Response: &http.Response{
 			StatusCode: 250,

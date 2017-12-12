@@ -8,24 +8,24 @@ import (
 	"strings"
 )
 
-// FakeClient is a fake http.Client implementation.
+// Client is a fake http.Client implementation.
 //
 // It will always return the provided data from the Response and Error field,
 // and all requests are recorded in the Requests field.
-type FakeClient struct {
+type Client struct {
 	Response *http.Response  // Response to return from all Do() calls.
 	Error    error           // Error to return from all Do() calls.
 	Requests []*http.Request // Records all requests made with Do().
 }
 
 // Do mocks client.Do.
-func (c *FakeClient) Do(req *http.Request) (*http.Response, error) {
+func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	c.Requests = append(c.Requests, req)
 	return c.Response, c.Error
 }
 
 // Get mocks client.Get.
-func (c *FakeClient) Get(url string) (resp *http.Response, err error) {
+func (c *Client) Get(url string) (resp *http.Response, err error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func (c *FakeClient) Get(url string) (resp *http.Response, err error) {
 }
 
 // Head mocks client.Head.
-func (c *FakeClient) Head(url string) (resp *http.Response, err error) {
+func (c *Client) Head(url string) (resp *http.Response, err error) {
 	req, err := http.NewRequest("HEAD", url, nil)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ func (c *FakeClient) Head(url string) (resp *http.Response, err error) {
 }
 
 // Post mocks client.Post.
-func (c *FakeClient) Post(
+func (c *Client) Post(
 	url string, contentType string, body io.Reader,
 ) (resp *http.Response, err error) {
 
@@ -57,7 +57,7 @@ func (c *FakeClient) Post(
 }
 
 // PostForm mocks client.PostForm.
-func (c *FakeClient) PostForm(url string, data url.Values) (resp *http.Response, err error) {
+func (c *Client) PostForm(url string, data url.Values) (resp *http.Response, err error) {
 	return c.Post(url, "application/x-www-form-urlencoded",
 		strings.NewReader(data.Encode()))
 }
